@@ -1,0 +1,311 @@
+---
+title: "Introduction to Data Science"
+author: "Juan Malaver, Data Science Consultant"
+date: "6/3/2021"
+output: 
+  ioslides_presentation:
+    widescreen: true
+    logo: logo_square.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# libraries
+library(tidyverse)
+library(broom)
+library(highcharter)
+
+# sourcing R scripts
+source("R/stocks.R", local = knitr::knit_global())
+```
+
+# Data Science Example
+
+## What is Data Science? {.flexbox .vcenter}
+
+```{r stocks}
+hchart(mnthly, "line", hcaes(x = date, y = RET, group = TICKER)) %>%
+  hc_title(text = "S&P 500 Monthly Returns") %>%
+  hc_xAxis(title = list(text = "Date")) %>%
+  hc_yAxis(title = list(text = "Excess Returns"))
+```
+
+::: {.notes}
+Considering graph
+
+- 7 years monthly stock returns (S&P 500 and 3-month U.S. Treasury Bills)
+
+- plot looks cool (might be seen on TV ad)
+
+What can we learn?
+
+- returns tend to be near zero
+
+- periods of higher volatility 
+
+- we don't learn *why* the periods are more volatile or when they will occur again
+
+- we can't pull information about an individual stock
+
+- too much data, not enough information
+:::
+
+## Beyond Raw Data
+
+- *Market Model*: relating stock returns to market average
+
+- Capital asset pricing model (CAPM):
+
+$$r_{jt}=\alpha_{j}+\beta_{j}m_{t}+\epsilon_{jt}$$
+
+  - $r_{jt}$: return for stock $j$ at time $t$
+  
+  - $m_{t}$: return for S&P 500 at time $t$ (market return)
+  
+  - $\epsilon_{jt}$: CAPM *error*
+  
+  - $[\alpha,\beta]$: CAPM parameters
+
+::: {.notes}
+Considering a simple model
+
+- output is stock return, input is market return
+
+- simple regression model 
+
+- a line relates inputs and outputs 
+
+Interpretation of coefficients
+
+- small $\beta$ near zero: low market sensitivity (t-bills)
+
+- large $\beta > 1$: volatile stock (high risk)
+
+- $\alpha$: adding/destroying value independently of market
+:::
+
+## Using Models to Analyze {.flexbox .vcenter}
+
+```{r CAPM}
+hchart(ticker_fit, "bubble", hcaes(x = beta, y = alpha, z = value)) %>%
+  hc_plotOptions(series = list(dataLabels = list(enabled = TRUE, format = "{point.TICKER}"))) %>%
+  hc_title(text = "Capital Asset Pricing Model") %>%
+  hc_subtitle(text = "alpha is money made regardless of market movements and beta is the sensitivity to market movements") %>%
+  hc_xAxis(plotLines = list(list(width = 2, value = 1, zIndex = 1))) %>%
+  hc_yAxis(plotLines = list(list(width = 2, value = 0, zIndex = 1)))
+```
+
+::: {.notes}
+Interpreting plot
+
+- plot gives insights into market sensitivity and arbitrage opportunities
+
+- AMZN vs MSFT and IBM vs ORCL (sensitivity and value added)
+
+- build and analyze portfolios (generate trading strategies)
+
+Connection to data science
+
+- purpose of CAPM: translate raw data into important information using a model
+
+- projecting information with key insights for decision making
+
+- variety of tools to generate information relevant to business policy
+:::
+
+# Defining Data Science
+
+## Elements of Data Science
+
+- Big Data (BD): large volumes and high complexity
+
+- Machine Learning (BD): building robust predictions from complex data
+
+- BD + ML + Statistics = Data Science
+
+- Data Science + Economics + Domain Knowledge = Business Data Science
+
+## Big Data Origins
+
+```{r spark, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("figs/spark.png")
+```
+
+::: {.notes}
+Computer engineering
+
+- data so large it cannot be stored on a single computer
+
+- *distributed* algorithms that can handle data across multiple computers
+
+- distributed data plays a big role in business data science
+:::
+
+## Tackling Big Data Today
+
+  - Software Engineers: handling data across multiple computers
+  
+  - Data Engineers: creating data pipelines
+  
+  - Data Scientists: collaborating with engineers and analyzing
+  
+  - Machine Learning Engineers: deploying and maintaining models
+  
+::: {.notes}
+Collaboration
+
+- data storage and pipelines is handled by engineers
+
+- data scientists focus on statistical modeling and analysis
+
+- high dimensions: number of websites visited, number of unique words
+
+Drivers of big data
+
+- digitization of business and society leads to massive amounts of data
+
+- data engineers used to normalize data in tables (useless in the long run)
+
+- data science tools give good answers using complex big data
+:::
+
+## Machine Learning
+
+- Statistics community: focus on understanding models (inference)
+
+- ML community: focus on maximizing performance (predictions) 
+
+- Black Box models: predicting the future well using past data (patterns)
+
+- Automation: algorithms that require little tuning (AutoML)
+
+::: {.notes}
+ML vs Statistics
+
+- prediction tends to be easier than inference, allowed more people to do ML
+
+- statisticians spend more effort in understanding how the world works
+
+- machine learners try many models and use the best one (huge success)
+
+Compromise
+
+- limits of prediction: strong dependence on the past (web traffic)
+
+- structural models (theory-based): understand how changes affect the system
+
+- data scientist needs a mix of domain knowledge and analytical tools
+:::
+
+# Data Science Toolset
+
+## Why Programming?
+
+```{r languages, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("figs/rpython.png")
+```
+
+- Data scientists are not software engineers
+
+- Programming languages are used to write "recipes" for analysis
+
+::: {.notes}
+Interacting with computers
+
+- typing commands is better than clicking buttons for data analysis
+
+- reproducibility, adaptability, and collaboration
+
+- R and python are high-level languages (optimal middle ground)
+
+R vs Python
+
+- exclusiveness is a myth: both can be used simultaneously
+
+- R is not an academic language: it is an industry-ready tool
+
+- packages, interfaces, and notebooks
+:::
+
+## Versatility of Programming
+
+- Outputs: documents, presentations, dashboards, websites, applications
+
+- Inputs: spreadsheets, text files, relational databases, unstructured data
+
+- No language is best for all purposes
+
+- Spark is a great platform for any big data application
+
+::: {.notes}
+Capabilities of programming languages
+
+- python is great for ML applications
+
+- large scale data can be handled with spark (integrates with both)
+
+- SQL can also be integrated for querying large datasets
+
+Distributed data
+
+- unstructured data handled by Hadoop and AWS S3 (DFS)
+
+- easy to adapt regular code to distributed environments
+
+- programming allows easy scaling (regardless of data size)
+:::
+
+# Data Visualization Showcase
+
+## Histogram
+```{r hist}
+x <- c(rnorm(10000), rnorm(1000, 4, 0.5))
+
+hchart(x, name = "data") 
+```
+
+## Box Plot
+```{r box, warning = FALSE}
+hcboxplot(x = iris$Sepal.Length, var = iris$Species)
+```
+
+## Scatter Plot
+```{r reg}
+modlss <- loess(dist ~ speed, data = cars)
+
+fit <- arrange(augment(modlss), speed) %>% 
+  mutate(.se = predict(modlss, se = TRUE)$se.fit)
+
+qtint <- qt(0.975, predict(modlss, se = TRUE)$df)
+
+hc <- hchart(
+  cars,
+  type = "scatter",
+  hcaes(x = speed, y = dist),
+  name = "Speed and Stopping Distances of Cars",
+  showInLegend = TRUE
+  )
+
+hc %>%
+  hc_add_series(
+    fit,
+    type = "spline",
+    hcaes(x = speed, y = .fitted),
+    name = "Fit",
+    id = "fit", # this is for link the arearange series to this one and have one legend
+    lineWidth = 1,
+    showInLegend = TRUE
+    ) %>% 
+  hc_add_series(
+    fit,
+    type = "arearange",
+    name = "SE",
+    hcaes(x = speed, low = .fitted - qtint*.se, high = .fitted + qtint*.se),
+    linkedTo = "fit", # here we link the legends in one.
+    showInLegend = FALSE,
+    color = hex_to_rgba("gray", 0.2),  # put a semi transparent color
+    zIndex = -3 # this is for put the series in a back so the points are showed first
+    )
+
+```
