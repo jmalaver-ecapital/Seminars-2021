@@ -17,10 +17,10 @@ library(modelr)
 library(broom)
 
 ## data import
-stocks <- read_csv("../data/stocks.csv", col_types = cols(
+stocks <- read_csv("data/stocks.csv", col_types = cols(
   date = col_date(format = "%Y%m%d")))
-bigs <-  read_csv("../data/bigstocks.csv", col_names = c("TICKER", "value"))
-tbills <- read_csv("../data/tbills.csv")
+bigs <-  read_csv("data/bigstocks.csv", col_names = c("TICKER", "value"))
+tbills <- read_csv("data/tbills.csv")
 
 
 # Wrangle -----------------------------------------------------------------

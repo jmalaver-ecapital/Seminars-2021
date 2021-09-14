@@ -1,0 +1,111 @@
+---
+title: "Elasticity and Linear Models"
+author: "Juan Malaver"
+date: "9/13/2021"
+output:
+  ioslides_presentation:
+    df_print: paged
+    widescreen: true
+    logo: logo_square.png
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(readr)
+library(ggplot2)
+library(broom)
+
+oj <- read_csv("data/oj.csv")
+```
+
+## Business Problem
+
+We want to model and predict a *response* variable ($y=\text{sales}$) as a 
+function of *inputs* ($x=\text{price}$).
+
+$$\mathbb{E}[y|\boldsymbol{x}]=\boldsymbol{x'\beta}=\beta_0+x_1\beta_1+\ldots+x_p\beta_p$$
+
+We will use *price elasticity of demand* ($\beta$) to understand how changes in
+`price` impact changes in `sales`.
+
+$$\text{log}(\texttt{sales})=\alpha+\beta\text{log}(\texttt{price})+\epsilon$$
+
+## Orange Juice Data
+
+```{r echo=FALSE}
+head(oj, n = 100)
+```
+
+## Prices by Brand {.flexbox .vcenter}
+
+```{r echo=FALSE}
+ggplot(data = oj, mapping = aes(x = brand, y = log(price), col = brand)) +
+  geom_boxplot()
+```
+
+## Prices and Sales by Brand {.flexbox .vcenter}
+
+```{r echo=FALSE}
+ggplot(data = oj, mapping = aes(x = log(price), y = log(sales), col = brand)) +
+  geom_point(alpha = 0.25)
+```
+
+## Interpreting Price Elasticity
+
+`sales` increase by $\beta\%$ for every $1\%$ increase in `price`.
+
+$$\frac{dy}{dx}=\frac{\beta}{x}e^{\alpha+\beta\text{log}(x)+\epsilon}\Rightarrow\beta=\frac{dy/y}{dx/x}$$
+
+`sales` and `price` must be strictly non-negative and we assume their conditional *distribution* follows
+a Normal distribution.
+
+$$y|\boldsymbol{x}\sim \mathcal{N}(\boldsymbol{x'\beta},\sigma^2)$$
+
+## Price Elasticity by Independent Brands
+
+```{r echo=FALSE}
+mod <- glm(log(sales) ~ log(price) + brand, data=oj)
+tidy(mod)
+```
+
+## Random Intercepts{.flexbox .vcenter}
+
+```{r echo=FALSE}
+ggplot(
+  data = cbind(oj, pred = predict(mod)),
+  mapping = aes(
+    x = log(price),
+    y = log(sales),
+    color = brand
+  )
+) + geom_point(col = "gray") +
+  geom_line(mapping = aes(y = pred), size = 1)
+```
+
+## Price Elasticity by Dependent Brands
+
+```{r echo=FALSE}
+mod <- glm(log(sales) ~ log(price)*brand, data=oj)
+tidy(mod)
+```
+
+## Random Slopes Random Intercepts{.flexbox .vcenter}
+
+```{r echo=FALSE}
+ggplot(
+  data = cbind(oj, pred = predict(mod)),
+  mapping = aes(
+    x = log(price),
+    y = log(sales),
+    color = brand
+  )
+) + geom_point(col = "gray") +
+  geom_line(mapping = aes(y = pred), size = 1)
+```
+
+## References
+
+Taddy, M. (2019). *Business data science: Combining machine learning and economics to optimize, automate, and accelerate business decisions* (1 Edition). McGraw-Hill Education.
+
+Varian, H. R. (2014). *Intermediate microeconomics: A modern approach* (Ninth edition, international student edition). W.W. Norton & Company.

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Data Science"
 author: "Juan Malaver, Data Science Consultant"
-date: "6/3/2021"
+date: "7/14/2021"
 output: 
   ioslides_presentation:
     widescreen: true
@@ -19,6 +19,66 @@ library(highcharter)
 # sourcing R scripts
 source("R/stocks.R", local = knitr::knit_global())
 ```
+
+## Business Data Science
+
+- How is data science different from business analysis?
+
+- What exactly makes someone a data scientist?
+
+- What can data scientists do and how?
+
+- How can we better understand data scientists?
+
+::: {.notes}
+Context
+
+- spreadsheets/pivot table -> code scripts (biz analysts -> applied scientists and soft eng)
+
+- biz execs can dive deep into operations and customer behavior (tracking the past and predicting the future)
+
+- big data: digital consumption and easy storage (ML, STAT, ECON)
+
+Terminology
+
+- new field -> hype -> professional rebranding ("If I work with data...")
+
+- business data science: "new standard for data analysis in the business world"
+
+- data scientists: identify, model, scale, communicate ("how is this revelant to decision making?")
+
+Understanding
+
+- "predictive analytics" (precursor): too much ML not enough business (WHAT vs WHY)
+
+- understanding business problem AND diving into the data and analyze it
+
+- academic literature -> stripped-down concepts (best practices, core recipes, business applications, math is not a crutch)
+
+- learn by doing: developers and users
+:::
+
+## Data Science at eCapital
+
+- Enabling data-driven decision making
+
+- Customized solutions to relevant business problems
+
+- Technical expertise for cutting-edge modeling
+
+- Understanding businesses through data
+
+::: {.notes}
+Why eCapital
+
+- we go beyond the data science hype
+
+- we have experience implementing solutions across verticals
+
+- we have technical expertise in a variety of data science tools
+
+- we generate assets to stay at the forefront (white papers, templates, etc.)
+:::
 
 # Data Science Example
 
@@ -120,7 +180,7 @@ Connection to data science
 
 - Big Data (BD): large volumes and high complexity
 
-- Machine Learning (BD): building robust predictions from complex data
+- Machine Learning (ML): building robust predictions from complex data
 
 - BD + ML + Statistics = Data Science
 
@@ -225,7 +285,9 @@ R vs Python
 
 - R is not an academic language: it is an industry-ready tool
 
-- packages, interfaces, and notebooks
+- python is great for ML applications
+
+- large contributing community
 :::
 
 ## Versatility of Programming
@@ -241,8 +303,6 @@ R vs Python
 ::: {.notes}
 Capabilities of programming languages
 
-- python is great for ML applications
-
 - large scale data can be handled with spark (integrates with both)
 
 - SQL can also be integrated for querying large datasets
@@ -256,7 +316,59 @@ Distributed data
 - programming allows easy scaling (regardless of data size)
 :::
 
-# Data Visualization Showcase
+# Data Science Success Story
+
+## Analyzing CRM Performance
+
+```{r extreme, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("figs/extreme.png")
+```
+
+::: {.notes}
+It Began with Incorta
+
+- Incorta implementation sparked interest in data science
+
+- close collaboration with IT team generated confidence in Incorta
+
+- robust sales forecasts were developed in Incorta
+
+Current State
+
+- business stakeholders saw the potential in data science
+
+- Clari -> RPA -> Incorta -> DS -> Tableau
+
+- sales managers' decision-making process improves
+:::
+
+## Understanding Customer Behavior
+
+```{r hbf, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("figs/HBF.png")
+```
+
+::: {.notes}
+Collaboration with BI Team
+
+- analyses were being framed as traditional BI
+
+- there was a need for deeper understanding of business dynamics
+
+- cohort analysis, customer segmentation, and customer churn
+
+Current State
+
+- business stakeholders saw the potential in data science
+
+- SQL Server -> R/Python -> visualizations, documentation, and predictions
+
+- HBF customer retention improves
+:::
+
+# Q&A
+
+# Appendix
 
 ## Histogram
 ```{r hist}
