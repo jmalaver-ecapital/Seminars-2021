@@ -16,6 +16,7 @@ library(readr)
 library(ggplot2)
 library(broom)
 
+# importing data
 oj <- read_csv("data/oj.csv")
 ```
 
